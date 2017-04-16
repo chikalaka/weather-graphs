@@ -10,13 +10,21 @@ class WeatherList extends Component {
 
   renderWeather(cityData){
     const {name} = cityData.city;
-    const temps = cityData.list.map((weather) => weather.main.temp);
+    const temps = _.map(cityData.list.map((weather) => weather.main.temp), (temp) => temp - 273.15);
+    const pressures = cityData.list.map((weather) => weather.main.pressure);
+    const humidities = cityData.list.map((weather) => weather.main.humidity);
 
     return (
       <tr key={name}>
-        <td>{name}</td>
-        <td>
-          <Chart data={temps} color='orange'></Chart>
+        <td className='col-xs-3'>{name}</td>
+        <td className='col-xs-3'>
+          <Chart data={temps} color='orange' units='C'></Chart>
+        </td>
+        <td className='col-xs-3'>
+          <Chart data={pressures} color='green' units='hPa'></Chart>
+        </td>
+        <td className='col-xs-3'>
+          <Chart data={humidities} color='black' units='%'></Chart>
         </td>
       </tr>
     );
@@ -27,10 +35,10 @@ class WeatherList extends Component {
       <table className='table table-hover'>
         <thead>
           <tr>
-            <th>City</th>
-            <th>Temperature</th>
-            <th>Pressure</th>
-            <th>Humidity</th>
+            <th className='col-xs-3'>City</th>
+            <th className='col-xs-3'>Temperature (Celsius)</th>
+            <th className='col-xs-3'>Pressure (hPa)</th>
+            <th className='col-xs-3'>Humidity (%)</th>
           </tr>
         </thead>
         <tbody>
